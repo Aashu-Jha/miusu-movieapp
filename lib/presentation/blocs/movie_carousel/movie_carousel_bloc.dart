@@ -5,15 +5,18 @@ import 'package:equatable/equatable.dart';
 import 'package:miusu/domain/entities/movie_entity.dart';
 import 'package:miusu/domain/usecases/get_trending.dart';
 import 'package:miusu/domain/usecases/no_params.dart';
+import 'package:miusu/presentation/blocs/movie_backdrop/movie_backdrop_bloc.dart';
 
 part 'movie_carousel_event.dart';
 part 'movie_carousel_state.dart';
 
 class MovieCarouselBloc extends Bloc<MovieCarouselEvent, MovieCarouselState> {
   final GetTrending getTrending;
+  final MovieBackdropBloc movieBackdropBloc;
 
   MovieCarouselBloc({
     required this.getTrending,
+    required this.movieBackdropBloc,
   }) : super(MovieCarouselInitial());
   
 
@@ -21,12 +24,13 @@ class MovieCarouselBloc extends Bloc<MovieCarouselEvent, MovieCarouselState> {
   Stream<MovieCarouselState> mapEventToState(
     MovieCarouselEvent event,
   ) async* {
-    if(event is MovieCarouselEvent) {
+    if(event is CarouselLoadEvent) {
       final either = await getTrending(NoParams());
       yield either.fold((error) => 
         MovieCarouselError(),
          (movies) {
-        return MovieCarouselLoaded(movies: movies!);
+           movieBackdropBloc.add(MovieBackdropChangedEvent(movies![event.defaultIndex]));
+        return MovieCarouselLoaded(movies: movies, defaultIndex: event.defaultIndex);
       });
     }
   }

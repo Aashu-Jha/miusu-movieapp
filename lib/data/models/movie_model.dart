@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:miusu/domain/entities/movie_entity.dart';
 
 class MovieModel extends MovieEntity{

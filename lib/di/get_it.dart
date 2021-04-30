@@ -8,6 +8,7 @@ import 'package:miusu/domain/usecases/get_coming_soon.dart';
 import 'package:miusu/domain/usecases/get_playing_now.dart';
 import 'package:miusu/domain/usecases/get_popular.dart';
 import 'package:miusu/domain/usecases/get_trending.dart';
+import 'package:miusu/presentation/blocs/movie_backdrop/movie_backdrop_bloc.dart';
 import 'package:miusu/presentation/blocs/movie_carousel/movie_carousel_bloc.dart';
 
 final getItInstance = GetIt.I;
@@ -28,5 +29,6 @@ Future init() async {
       () => GetPlayingNow(getItInstance()));
   getItInstance.registerLazySingleton<MovieRepository>(
       () => MovieRepositoryImpl(getItInstance()));
-  getItInstance.registerFactory(() => MovieCarouselBloc(getTrending: getItInstance()));
+  getItInstance.registerFactory(() => MovieCarouselBloc(getTrending: getItInstance(), movieBackdropBloc: getItInstance()));
+  getItInstance.registerFactory(() => MovieBackdropBloc());
 }
