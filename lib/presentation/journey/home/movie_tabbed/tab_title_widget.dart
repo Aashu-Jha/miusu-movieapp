@@ -5,8 +5,8 @@ import 'package:miusu/presentation/themes/app_color.dart';
 import 'package:miusu/presentation/themes/theme_text.dart';
 
 class TabTitleWidget extends StatelessWidget {
-  final String title;
-  final Function onTap;
+  final String? title;
+  final Function? onTap;
   final bool isSelected;
 
 
@@ -18,7 +18,7 @@ class TabTitleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        onTap();
+        onTap!();
       },
       child: Container(
         decoration: BoxDecoration(
@@ -31,7 +31,7 @@ class TabTitleWidget extends StatelessWidget {
           )
         ),
         child: Text(
-          title,
+          title!,
           style: isSelected ? Theme.of(context).textTheme.royalBlueSubtitle1
             : Theme.of(context).textTheme.subtitle1,
         ),
