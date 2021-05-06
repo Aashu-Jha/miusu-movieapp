@@ -18,27 +18,30 @@ class MovieTabCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Expanded(
-            child: ClipRRect(
-          borderRadius: BorderRadius.circular(Sizes.dimen_6.h),
-          child: CachedNetworkImage(
-            imageUrl: '${ApiConstants.BASE_IMAGE_URL}$posterPath',
-            fit: BoxFit.cover,
-          ),
-        )),
-        Padding(
-            padding: EdgeInsets.only(top: Sizes.dimen_4.h),
-          child: Text(
-            title.intelliTrim(),
-            maxLines: 1,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyText2,
-          ),
-        )
-      ],
+    return GestureDetector(
+      onTap: () {},
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Expanded(
+              child: ClipRRect(
+            borderRadius: BorderRadius.circular(Sizes.dimen_6.h),
+            child: CachedNetworkImage(
+              imageUrl: '${ApiConstants.BASE_IMAGE_URL}$posterPath',
+              fit: BoxFit.cover,
+            ),
+          )),
+          Padding(
+              padding: EdgeInsets.only(top: Sizes.dimen_4.h),
+            child: Text(
+              title.intelliTrim(),
+              maxLines: 1,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+          )
+        ],
+      ),
     );
   }
 }

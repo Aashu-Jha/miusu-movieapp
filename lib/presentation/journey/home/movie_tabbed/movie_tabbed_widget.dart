@@ -17,16 +17,17 @@ class _MovieTabbedWidgetState extends State<MovieTabbedWidget> with SingleTicker
   MovieTabbedBloc get movieTabbedBloc =>
       BlocProvider.of<MovieTabbedBloc>(context);
 
-  int currentIndex = 0;
+  int currentTabIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    movieTabbedBloc.add(MovieTabChangedEvent(currentIndex: currentIndex));
+    movieTabbedBloc.add(MovieTabChangedEvent(currentTabIndex: currentTabIndex));
   }
 
   @override
   void dispose() {
+    movieTabbedBloc.close();
     super.dispose();
   }
   @override
@@ -41,11 +42,12 @@ class _MovieTabbedWidgetState extends State<MovieTabbedWidget> with SingleTicker
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    for(var i = 0; i < MovieTabbedConstants.movieTabs.length;
-                      i++)
+                    for(var i = 0; i < MovieTabbedConstants.movieTabs.length; i++)
                      TabTitleWidget(
                          title: MovieTabbedConstants.movieTabs[i].title,
-                         onTap:() => _onTabTapped(i),
+                         onTap:() {
+                           _onTabTapped(i);
+                         },
                           isSelected: MovieTabbedConstants.movieTabs[i].index == state.currentTabIndex,
                      ),
                   ],
@@ -61,7 +63,7 @@ class _MovieTabbedWidgetState extends State<MovieTabbedWidget> with SingleTicker
         );
     }
     void _onTabTapped(int index) {
-      movieTabbedBloc.add(MovieTabChangedEvent(currentIndex: index));
+      movieTabbedBloc.add(MovieTabChangedEvent(currentTabIndex: index));
   }
 }
 

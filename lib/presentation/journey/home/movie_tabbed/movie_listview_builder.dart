@@ -16,7 +16,7 @@ class MovieListViewBuilder extends StatelessWidget {
         shrinkWrap: true,
           scrollDirection: Axis.horizontal,
           itemCount: movies.length,
-          itemBuilder: (ctx, index) {
+          itemBuilder: (context, index) {
             final MovieEntity movie = movies[index];
             return MovieTabCardWidget(
                 movId: movie.id!,

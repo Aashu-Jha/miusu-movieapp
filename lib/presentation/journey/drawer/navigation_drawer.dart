@@ -8,7 +8,9 @@ import 'package:miusu/common/extensions/string_extension.dart';
 import 'package:miusu/presentation/blocs/language_bloc/language_bloc.dart';
 import 'package:miusu/presentation/journey/drawer/navigation_expanded_list_item.dart';
 import 'package:miusu/presentation/journey/drawer/navigation_list_item.dart';
+import 'package:miusu/presentation/widgets/app_dialog.dart';
 import 'package:miusu/presentation/widgets/logo.dart';
+import 'package:wiredash/wiredash.dart';
 
 import '../../../common/constants/languages.dart';
 
@@ -18,17 +20,12 @@ class NavigationDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 4,
-              color: Theme
-                  .of(context)
-                  .primaryColor
-                  .withOpacity(0.7),
-            ),
-          ]
-      ),
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+          blurRadius: 4,
+          color: Theme.of(context).primaryColor.withOpacity(0.7),
+        ),
+      ]),
       width: Sizes.dimen_300.w,
       child: SafeArea(
         child: Column(
@@ -51,14 +48,37 @@ class NavigationDrawer extends StatelessWidget {
             NavigationExpandedListItem(
                 title: TranslationConstants.language.t(context),
                 onPressed: (index) {
-                  BlocProvider.of<LanguageBloc>(context).add(ToggleLanguageEvent(Languages.languages[index]));
+                  BlocProvider.of<LanguageBloc>(context)
+                      .add(ToggleLanguageEvent(Languages.languages[index]));
                 },
                 children: Languages.languages.map((e) => e.value).toList()),
-            NavigationListItem(title: TranslationConstants.feedback.t(context), onPressed: () {}),
-            NavigationListItem(title: TranslationConstants.about.t(context), onPressed: () {}),
+            NavigationListItem(
+                title: TranslationConstants.feedback.t(context),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Wiredash.of(context)!.show();
+                }),
+            NavigationListItem(
+                title: TranslationConstants.about.t(context),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _showDialog(context);
+                }),
           ],
         ),
       ),
+    );
+  }
+
+  void _showDialog(BuildContext context) {
+    showDialog(
+        context: context,
+      builder: (BuildContext context) => AppDialog(
+            title: TranslationConstants.about,
+            description: TranslationConstants.aboutDescription,
+            buttonText: TranslationConstants.okay,
+        image: Image.asset('assets/pngs/tmdb_logo.png', height: Sizes.dimen_32.h,),
+      )
     );
   }
 }
