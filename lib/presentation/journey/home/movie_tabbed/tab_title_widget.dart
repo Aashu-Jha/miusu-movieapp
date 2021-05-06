@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:miusu/common/constants/sizes.dart';
 import 'package:miusu/common/extensions/size_extensions.dart';
+import 'package:miusu/common/extensions/string_extension.dart';
 import 'package:miusu/presentation/themes/app_color.dart';
 import 'package:miusu/presentation/themes/theme_text.dart';
 
 class TabTitleWidget extends StatelessWidget {
-  final String? title;
-  final Function? onTap;
+  final String title;
+  final Function onTap;
   final bool isSelected;
 
 
   const TabTitleWidget({Key? key, required this.title, required this.onTap,  this.isSelected = false})
-    : assert(title != null, 'Title cannot be null'),
-        assert(onTap != null, 'onTap cannot be null'), super(key: key);
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        onTap!();
+        onTap();
       },
       child: Container(
         decoration: BoxDecoration(
@@ -31,7 +31,7 @@ class TabTitleWidget extends StatelessWidget {
           )
         ),
         child: Text(
-          title!,
+          title.t(context), //'popular', 'now', 'soon'
           style: isSelected ? Theme.of(context).textTheme.royalBlueSubtitle1
             : Theme.of(context).textTheme.subtitle1,
         ),
