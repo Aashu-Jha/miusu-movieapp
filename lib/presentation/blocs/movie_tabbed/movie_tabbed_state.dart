@@ -12,9 +12,9 @@ class MovieTabbedInitial extends MovieTabbedState {
 }
 
 class MovieTabChanged extends MovieTabbedState {
-  final List<MovieEntity>? movies;
+  final List<MovieEntity> movies;
 
-  const MovieTabChanged({int? currentTabIndex, this.movies})
+  const MovieTabChanged({int? currentTabIndex,required this.movies})
     :super(currentTabIndex: currentTabIndex);
 
   @override
@@ -22,6 +22,8 @@ class MovieTabChanged extends MovieTabbedState {
 }
 
 class MovieTabLoadError extends MovieTabbedState {
-  const MovieTabLoadError(int currentTabIndex)
+  final AppErrorType errorType;
+
+  const MovieTabLoadError({required this.errorType, int? currentTabIndex})
       :super(currentTabIndex: currentTabIndex);
 }
