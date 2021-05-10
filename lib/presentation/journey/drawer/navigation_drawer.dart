@@ -4,7 +4,7 @@ import 'package:miusu/common/constants/languages.dart';
 import 'package:miusu/common/constants/translation_constants.dart';
 import 'package:miusu/common/extensions/size_extensions.dart';
 import 'package:miusu/common/constants/sizes.dart';
-import 'package:miusu/common/extensions/string_extension.dart';
+import 'package:miusu/common/extensions/string_extensions.dart';
 import 'package:miusu/presentation/blocs/language_bloc/language_bloc.dart';
 import 'package:miusu/presentation/journey/drawer/navigation_expanded_list_item.dart';
 import 'package:miusu/presentation/journey/drawer/navigation_list_item.dart';

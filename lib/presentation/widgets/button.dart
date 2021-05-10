@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:miusu/common/constants/sizes.dart';
-import 'package:miusu/common/extensions/string_extension.dart';
+import 'package:miusu/common/extensions/string_extensions.dart';
 import 'package:miusu/common/extensions/size_extensions.dart';
 import 'package:miusu/presentation/themes/app_color.dart';
 
