@@ -6,7 +6,6 @@ import 'package:miusu/data/models/movie_detail_model.dart';
 import 'package:miusu/data/models/movie_model.dart';
 import 'package:miusu/data/models/video_result_model.dart';
 import 'package:miusu/domain/entities/app_error.dart';
-import 'package:miusu/domain/entities/movie_entity.dart';
 import 'package:miusu/domain/repositories/movie_repostiory.dart';
 
 class MovieRepositoryImpl extends MovieRepository {
@@ -27,7 +26,7 @@ class MovieRepositoryImpl extends MovieRepository {
   }
 
   @override
-  Future<Either<AppError, List<MovieEntity>?>> getComingSoon() async {
+  Future<Either<AppError, List<MovieModel>?>> getComingSoon() async {
     try{
       final movies = await remoteDataSource.getComingSoon();
       return Right(movies);
@@ -39,7 +38,7 @@ class MovieRepositoryImpl extends MovieRepository {
   }
 
   @override
-  Future<Either<AppError, List<MovieEntity>?>> getPlayingNow() async {
+  Future<Either<AppError, List<MovieModel>?>> getPlayingNow() async {
     try{
       final movies = await remoteDataSource.getPlayingNow();
       return Right(movies);
@@ -51,7 +50,7 @@ class MovieRepositoryImpl extends MovieRepository {
   }
 
   @override
-  Future<Either<AppError, List<MovieEntity>?>> getPopular() async {
+  Future<Either<AppError, List<MovieModel>?>> getPopular() async {
     try{
       final movies = await remoteDataSource.getPopular();
       return Right(movies);
@@ -91,6 +90,18 @@ class MovieRepositoryImpl extends MovieRepository {
     try{
       final videos = await remoteDataSource.getVideos(id);
       return Right(videos);
+    }on SocketException {
+      return Left(AppError(AppErrorType.network));
+    }on Exception {
+      return Left(AppError(AppErrorType.api));
+    }
+  }
+
+  @override
+  Future<Either<AppError, List<MovieModel>?>> getSearchedMovies(String searchTerm) async {
+    try{
+      final movies = await remoteDataSource.getSearchedMovies(searchTerm);
+      return Right(movies);
     }on SocketException {
       return Left(AppError(AppErrorType.network));
     }on Exception {
