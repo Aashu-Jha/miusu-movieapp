@@ -9,9 +9,9 @@ import 'package:miusu/presentation/journey/watch_videos/watch_video_arguments.da
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class WatchVideoScreen extends StatefulWidget {
-  final WatchVideoArguments arguments;
+  final WatchVideoArguments watchVideoArguments;
 
-  const WatchVideoScreen({Key? key, required this.arguments}) : super(key: key);
+  const WatchVideoScreen({Key? key, required this.watchVideoArguments}) : super(key: key);
 
   @override
   _WatchVideoScreenState createState() => _WatchVideoScreenState();
@@ -24,7 +24,7 @@ class _WatchVideoScreenState extends State<WatchVideoScreen> {
   @override
   void initState() {
     super.initState();
-    _videos = widget.arguments.videos;
+    _videos = widget.watchVideoArguments.videos;
     _controller = YoutubePlayerController(
         initialVideoId: _videos[0].key!,
       flags: YoutubePlayerFlags(

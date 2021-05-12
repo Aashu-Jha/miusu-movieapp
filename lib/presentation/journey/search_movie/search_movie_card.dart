@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:miusu/common/constants/route_constants.dart';
 import 'package:miusu/common/constants/sizes.dart';
 import 'package:miusu/common/extensions/size_extensions.dart';
+import 'package:miusu/presentation/journey/movie_detail/movie_detail_arguments.dart';
 import 'package:miusu/presentation/themes/theme_text.dart';
 import 'package:miusu/data/core/api_constants.dart';
 import 'package:miusu/domain/entities/movie_entity.dart';
-import 'package:miusu/presentation/journey/movie_detail/movie_detail_arguments.dart';
-import 'package:miusu/presentation/journey/movie_detail/movie_detail_screen.dart';
 
 class SearchMovieCard extends StatelessWidget {
   final MovieEntity movie;
@@ -20,12 +20,8 @@ class SearchMovieCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => MovieDetailScreen(
-              arguments: MovieDetailArguments(movie.id!),
-            ),
-          ),
+        Navigator.of(context).pushNamed(
+          RouteList.movieDetail, arguments: MovieDetailArguments(id: movie.id!)
         );
       },
       child: Padding(
@@ -41,6 +37,12 @@ class SearchMovieCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(Sizes.dimen_4.w),
                 child: CachedNetworkImage(
                   imageUrl: '${ApiConstants.BASE_IMAGE_URL}${movie.posterPath}',
+                  errorWidget: (context, error, child) => Center(
+                    child: Text(
+                      'Loading failed',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                   width: Sizes.dimen_80.w,
                 ),
               ),

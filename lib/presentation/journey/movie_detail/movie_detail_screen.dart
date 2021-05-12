@@ -6,6 +6,7 @@ import 'package:miusu/common/constants/translation_constants.dart';
 import 'package:miusu/common/extensions/size_extensions.dart';
 import 'package:miusu/di/get_it.dart';
 import 'package:miusu/presentation/blocs/cast/cast_bloc.dart';
+import 'package:miusu/presentation/blocs/favorite/favorite_bloc.dart';
 import 'package:miusu/presentation/blocs/movie_detail/movie_detail_bloc.dart';
 import 'package:miusu/presentation/blocs/videos/videos_bloc.dart';
 import 'package:miusu/presentation/journey/movie_detail/movie_detail_arguments.dart';
@@ -15,9 +16,9 @@ import 'big_poster.dart';
 import 'cast_widget.dart';
 
 class MovieDetailScreen extends StatefulWidget {
-  final MovieDetailArguments arguments;
+  final MovieDetailArguments watchMovieArguments;
 
-  const MovieDetailScreen({Key? key, required this.arguments})
+  const MovieDetailScreen({Key? key, required this.watchMovieArguments})
       : super(key: key);
 
   @override
@@ -28,13 +29,15 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
   late MovieDetailBloc? _movieDetailBloc;
   late CastBloc? _castBloc;
   late VideosBloc? _videosBloc;
+  late FavoriteBloc? _favoriteBloc;
 
   @override
   void initState() {
     _movieDetailBloc = getItInstance<MovieDetailBloc>();
     _castBloc = _movieDetailBloc!.castBloc;
     _videosBloc = _movieDetailBloc!.videosBloc;
-    _movieDetailBloc!.add(MovieDetailLoadEvent(widget.arguments.id));
+    _favoriteBloc = _movieDetailBloc!.favoriteBloc;
+    _movieDetailBloc!.add(MovieDetailLoadEvent(widget.watchMovieArguments.id));
     super.initState();
   }
 
@@ -42,6 +45,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
   void dispose() {
     _castBloc!.close();
     _videosBloc!.close();
+    _favoriteBloc!.close();
     _movieDetailBloc!.close();
     super.dispose();
   }
@@ -54,6 +58,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
           BlocProvider.value(value: _movieDetailBloc!),
           BlocProvider.value(value: _castBloc!),
           BlocProvider.value(value: _videosBloc!),
+          BlocProvider.value(value: _favoriteBloc!),
         ],
         child: BlocBuilder<MovieDetailBloc, MovieDetailState>(
             builder: (context, state) {

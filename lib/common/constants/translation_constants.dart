@@ -2,6 +2,7 @@ class TranslationConstants {
   TranslationConstants._();
 
   static const String favoriteMovies = 'favoriteMovies';
+  static const String noFavoriteMovie = 'noFavoriteMovie';
   static const String language = 'language';
   static const String feedback = 'feedback';
   static const String about = 'about';
