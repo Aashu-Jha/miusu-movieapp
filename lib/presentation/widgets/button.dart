@@ -7,12 +7,13 @@ import 'package:miusu/presentation/themes/app_color.dart';
 
 class Button extends StatelessWidget {
   final String text;
-  final Function onPressed;
-
+  final Function() onPressed;
+  final bool isEnabled;
   const Button({
     Key? key,
     required this.text,
     required this.onPressed,
+    this.isEnabled = true,
   }) : super(key: key);
 
   @override
@@ -33,9 +34,7 @@ class Button extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: Sizes.dimen_10.h),
       height: Sizes.dimen_16.h,
       child: TextButton(
-        onPressed: () {
-          onPressed();
-        },
+        onPressed: isEnabled ?  onPressed : null ,
         child: Text(
           text.t(context),
           style: Theme

@@ -1,5 +1,5 @@
 class MovieDetailArguments {
   final int id;
 
-  const MovieDetailArguments(this.id);
+  const MovieDetailArguments({required this.id});
 }

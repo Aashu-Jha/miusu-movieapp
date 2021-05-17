@@ -18,8 +18,8 @@ class MovieTableAdapter extends TypeAdapter<MovieTable> {
     };
     return MovieTable(
       id: fields[0] as int,
-      title: fields[1] as String?,
-      posterPath: fields[2] as String?,
+      title: fields[1] as String,
+      posterPath: fields[2] as String,
     );
   }
 

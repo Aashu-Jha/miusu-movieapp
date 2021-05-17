@@ -21,7 +21,7 @@ class SearchMovieCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).pushNamed(
-          RouteList.movieDetail, arguments: MovieDetailArguments(id: movie.id!)
+          RouteList.movieDetail, arguments: MovieDetailArguments(id: movie.id)
         );
       },
       child: Padding(
@@ -54,7 +54,7 @@ class SearchMovieCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    movie.title!,
+                    movie.title,
                     style: Theme.of(context).textTheme.subtitle1,
                   ),
                   Text(

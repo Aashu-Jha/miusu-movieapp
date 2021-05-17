@@ -1,92 +1,35 @@
-import 'package:miusu/domain/entities/video_entity.dart';
+import 'video_model.dart';
 
 class VideoResultModel {
-  int? id;
-  List<VideoModel>? videos;
+  final int id;
+  late final List<VideoModel> videos;
 
-  VideoResultModel({
-      this.id, 
-      this.videos});
+  VideoResultModel({required this.id, required this.videos});
 
-  VideoResultModel.fromJson(dynamic json) {
-    id = json["id"];
-    if (json["results"] != null) {
-      videos = [];
-      json["results"].forEach((v) {
-        videos?.add(VideoModel.fromJson(v));
+  factory VideoResultModel.fromJson(Map<String, dynamic> json) {
+    var videos = List<VideoModel>.empty(growable: true);
+    if (json['results'] != null) {
+      json['results'].forEach((v) {
+        var _videoModel = VideoModel.fromJson(v);
+        if (_isValidVideo(_videoModel)) {
+          videos.add(VideoModel.fromJson(v));
+        }
       });
     }
+
+    return VideoResultModel(id: json['id'], videos: videos);
   }
 
   Map<String, dynamic> toJson() {
-    var map = <String, dynamic>{};
-    map["id"] = id;
-    if (videos != null) {
-      map["results"] = videos?.map((v) => v.toJson()).toList();
-    }
-    return map;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['results'] = this.videos.map((v) => v.toJson()).toList();
+    return data;
   }
-
 }
 
-/// id : "533ec654c3a36854480003eb"
-/// iso_639_1 : "en"
-/// iso_3166_1 : "US"
-/// key : "SUXWAEX2jlg"
-/// name : "Trailer 1"
-/// site : "YouTube"
-/// size : 720
-/// type : "Trailer"
-
-class VideoModel extends VideoEntity{
-  final String? id;
-  final String? iso6391;
-  final String? iso31661;
-  final String key;
-  final String name;
-  final String? site;
-  final int? size;
-  final String type;
-
-  VideoModel({
-      this.id,
-      this.iso6391, 
-      this.iso31661, 
-      required this.key,
-      required this.name,
-      this.site, 
-      this.size, 
-      required this.type}) : super (
-    title: name,
-    key: key,
-    type: type,
-  );
-
-  factory VideoModel.fromJson(Map<String, dynamic> json) {
-    return VideoModel(
-      id : json["id"],
-      iso6391: json["iso_639_1"],
-      iso31661: json["iso_3166_1"],
-      key: json["key"],
-      name: json["name"],
-      site: json["site"],
-      size: json["size"],
-      type: json["type"],
-    );
-
-  }
-
-  Map<String, dynamic> toJson() {
-    var map = <String, dynamic>{};
-    map["id"] = id;
-    map["iso_639_1"] = iso6391;
-    map["iso_3166_1"] = iso31661;
-    map["key"] = key;
-    map["name"] = name;
-    map["site"] = site;
-    map["size"] = size;
-    map["type"] = type;
-    return map;
-  }
-
+bool _isValidVideo(VideoModel videoModel) {
+  return videoModel.key.isNotEmpty &&
+      videoModel.name.isNotEmpty &&
+      videoModel.type.isNotEmpty;
 }

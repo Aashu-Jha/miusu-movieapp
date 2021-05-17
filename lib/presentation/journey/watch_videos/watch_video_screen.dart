@@ -19,14 +19,14 @@ class WatchVideoScreen extends StatefulWidget {
 
 class _WatchVideoScreenState extends State<WatchVideoScreen> {
   late List<VideoEntity>_videos;
-  late YoutubePlayerController _controller;
+  late YoutubePlayerController? _controller;
 
   @override
   void initState() {
     super.initState();
     _videos = widget.watchVideoArguments.videos;
     _controller = YoutubePlayerController(
-        initialVideoId: _videos[0].key!,
+        initialVideoId: _videos[0].key,
       flags: YoutubePlayerFlags(
         autoPlay: true,
         mute: false,
@@ -36,7 +36,7 @@ class _WatchVideoScreenState extends State<WatchVideoScreen> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
     super.dispose();
   }
 
@@ -50,7 +50,14 @@ class _WatchVideoScreenState extends State<WatchVideoScreen> {
       ),
       body: YoutubePlayerBuilder(
         player: YoutubePlayer(
-          controller: _controller,
+          controller: _controller ??
+              YoutubePlayerController(
+                initialVideoId: _videos[0].key,
+                flags: YoutubePlayerFlags(
+                  autoPlay: true,
+                  mute: false,
+                ),
+              ),
           aspectRatio: 16 / 9,
           showVideoProgressIndicator: true,
           progressIndicatorColor: Colors.amber,
@@ -69,20 +76,20 @@ class _WatchVideoScreenState extends State<WatchVideoScreen> {
                     children: [
                       for (int i = 0; i < _videos.length; i++)
                         Container(
-                          height: 60.h,
+                          height: Sizes.dimen_60.h,
                           padding:
                           EdgeInsets.symmetric(vertical: Sizes.dimen_8.h),
                           child: Row(
                             children: <Widget>[
                               GestureDetector(
                                 onTap: () {
-                                  _controller.load(_videos[i].key!);
-                                  _controller.play();
+                                  _controller?.load(_videos[i].key);
+                                  _controller?.play();
                                 },
                                 child: CachedNetworkImage(
                                   width: Sizes.dimen_200.w,
                                   imageUrl: YoutubePlayer.getThumbnail(
-                                    videoId: _videos[i].key!,
+                                    videoId: _videos[i].key,
                                     quality: ThumbnailQuality.high,
                                   ),
                                 ),
@@ -90,9 +97,9 @@ class _WatchVideoScreenState extends State<WatchVideoScreen> {
                               Expanded(
                                 child: Padding(
                                   padding:
-                                  EdgeInsets.symmetric(horizontal: 8.w),
+                                  EdgeInsets.symmetric(horizontal: Sizes.dimen_8.w),
                                   child: Text(
-                                    _videos[i].title!,
+                                    _videos[i].title,
                                     style:
                                     Theme.of(context).textTheme.subtitle1,
                                   ),

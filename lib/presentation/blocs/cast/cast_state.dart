@@ -1,4 +1,4 @@
-part of 'cast_bloc.dart';
+part of 'cast_cubit.dart';
 
 abstract class CastState extends Equatable {
   const CastState();
@@ -10,12 +10,12 @@ class CastInitial extends CastState {
 }
 
 class CastLoaded extends CastState {
-  final List<CastEntity>? casts;
+  final List<CastEntity> casts;
 
   const CastLoaded({required this.casts});
 
   @override
-  List<Object?> get props => [casts];
+  List<Object> get props => [casts];
 
 }
 

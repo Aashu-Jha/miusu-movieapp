@@ -9,12 +9,12 @@ class MovieTable extends MovieEntity {
   final int id;
 
   @HiveField(1)
-  final String? title;
+  final String title;
 
   @HiveField(2)
-  final String? posterPath;
+  final String posterPath;
 
-  MovieTable({required this.id, this.title, this.posterPath}) : super(
+  MovieTable({required this.id,required this.title,required this.posterPath}) : super(
     id: id,
     title: title,
     posterPath: posterPath,
@@ -25,7 +25,7 @@ class MovieTable extends MovieEntity {
 
   factory MovieTable.fromMovieEntity(MovieEntity movieEntity) {
     return MovieTable(
-        id: movieEntity.id!,
+        id: movieEntity.id,
         title: movieEntity.title,
         posterPath: movieEntity.posterPath,
     );

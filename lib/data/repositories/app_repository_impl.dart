@@ -10,7 +10,7 @@ class AppRepositoryImpl extends AppRepository {
   AppRepositoryImpl(this.languageLocalDataSource);
 
   @override
-  Future<Either<AppError, String?>> getPreferredLanguage() async {
+  Future<Either<AppError, String>> getPreferredLanguage() async {
     try {
       final response = await languageLocalDataSource.getPreferredLanguage();
       return Right(response);

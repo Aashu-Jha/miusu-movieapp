@@ -5,10 +5,10 @@ import 'package:miusu/common/extensions/string_extensions.dart';
 import 'package:miusu/common/constants/translation_constants.dart';
 import 'package:miusu/common/extensions/size_extensions.dart';
 import 'package:miusu/di/get_it.dart';
-import 'package:miusu/presentation/blocs/cast/cast_bloc.dart';
-import 'package:miusu/presentation/blocs/favorite/favorite_bloc.dart';
-import 'package:miusu/presentation/blocs/movie_detail/movie_detail_bloc.dart';
-import 'package:miusu/presentation/blocs/videos/videos_bloc.dart';
+import 'package:miusu/presentation/blocs/cast/cast_cubit.dart';
+import 'package:miusu/presentation/blocs/favorite/favorite_cubit.dart';
+import 'package:miusu/presentation/blocs/movie_detail/movie_detail_cubit.dart';
+import 'package:miusu/presentation/blocs/videos/videos_cubit.dart';
 import 'package:miusu/presentation/journey/movie_detail/movie_detail_arguments.dart';
 import 'package:miusu/presentation/journey/movie_detail/videos_widget.dart';
 
@@ -26,27 +26,27 @@ class MovieDetailScreen extends StatefulWidget {
 }
 
 class _MovieDetailScreenState extends State<MovieDetailScreen> {
-  late MovieDetailBloc? _movieDetailBloc;
-  late CastBloc? _castBloc;
-  late VideosBloc? _videosBloc;
-  late FavoriteBloc? _favoriteBloc;
+  late MovieDetailCubit _movieDetailCubit;
+  late CastCubit _castCubit;
+  late VideosCubit _videosCubit;
+  late FavoriteCubit _favoriteCubit;
 
   @override
   void initState() {
-    _movieDetailBloc = getItInstance<MovieDetailBloc>();
-    _castBloc = _movieDetailBloc!.castBloc;
-    _videosBloc = _movieDetailBloc!.videosBloc;
-    _favoriteBloc = _movieDetailBloc!.favoriteBloc;
-    _movieDetailBloc!.add(MovieDetailLoadEvent(widget.watchMovieArguments.id));
+    _movieDetailCubit = getItInstance<MovieDetailCubit>();
+    _castCubit = _movieDetailCubit.castCubit;
+    _videosCubit = _movieDetailCubit.videosCubit;
+    _favoriteCubit = _movieDetailCubit.favoriteCubit;
+    _movieDetailCubit.loadMovieDetail(widget.watchMovieArguments.id);
     super.initState();
   }
 
   @override
   void dispose() {
-    _castBloc!.close();
-    _videosBloc!.close();
-    _favoriteBloc!.close();
-    _movieDetailBloc!.close();
+    _castCubit.close();
+    _videosCubit.close();
+    _favoriteCubit.close();
+    _movieDetailCubit.close();
     super.dispose();
   }
 
@@ -55,12 +55,12 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
     return Scaffold(
       body: MultiBlocProvider(
         providers: [
-          BlocProvider.value(value: _movieDetailBloc!),
-          BlocProvider.value(value: _castBloc!),
-          BlocProvider.value(value: _videosBloc!),
-          BlocProvider.value(value: _favoriteBloc!),
+          BlocProvider.value(value: _movieDetailCubit),
+          BlocProvider.value(value: _castCubit),
+          BlocProvider.value(value: _videosCubit),
+          BlocProvider.value(value: _favoriteCubit),
         ],
-        child: BlocBuilder<MovieDetailBloc, MovieDetailState>(
+        child: BlocBuilder<MovieDetailCubit, MovieDetailState>(
             builder: (context, state) {
               if (state is MovieDetailLoaded) {
                 final movieDetail = state.movieDetailEntity;
@@ -73,7 +73,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_16.w, vertical: Sizes.dimen_8.h),
                         child: Text(
-                          movieDetail.overview!,
+                          movieDetail.overview ?? '',
                           style: Theme.of(context).textTheme.bodyText2,
                         ),
                       ),
@@ -85,14 +85,12 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                         ),
                       ),
                       CastWidget(),
-                      VideosWidget(videosBloc: _videosBloc!),
+                      VideosWidget(videosCubit: _videosCubit),
                     ],
                   ),
                 );
               } else if (state is MovieDetailError) {
-                //ToDo
-              } else if (state is MovieDetailLoading) {
-                return Center(child: CircularProgressIndicator());
+                return Container();
               }
               return SizedBox.shrink();
             },

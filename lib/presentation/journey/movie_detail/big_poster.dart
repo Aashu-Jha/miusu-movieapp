@@ -11,7 +11,7 @@ import 'package:miusu/domain/entities/movie_detail_entity.dart';
 import 'movie_detail_app_bar.dart';
 
 class BigPoster extends StatelessWidget {
-  final MovieDetailEntity? movie;
+  final MovieDetailEntity movie;
 
   const BigPoster({Key? key, required this.movie}) : super(key: key);
 
@@ -29,7 +29,7 @@ class BigPoster extends StatelessWidget {
               ]),
         ),
         child: CachedNetworkImage(
-          imageUrl: '${ApiConstants.BASE_IMAGE_URL}${movie!.posterPath}',
+          imageUrl: '${ApiConstants.BASE_IMAGE_URL}${movie.posterPath}',
           width: ScreenUtil.screenWidth,
         ),
       ),
@@ -38,14 +38,14 @@ class BigPoster extends StatelessWidget {
         right: 0,
         bottom: 0,
         child: ListTile(
-          title: Text(movie!.title!,
+          title: Text(movie.title,
             style: Theme.of(context).textTheme.headline5,
           ),
-          subtitle: Text(movie!.releaseDate!,
+          subtitle: Text(movie.releaseDate ?? '',
             style: Theme.of(context).textTheme.greySubtitle1,
           ),
           trailing: Text(
-            movie!.voteAverage!.convertToPercentString(),
+            movie.voteAverage.convertToPercentString(),
             style: Theme.of(context).textTheme.violetHeadLine6,
           ),
         )
@@ -54,7 +54,7 @@ class BigPoster extends StatelessWidget {
         left: Sizes.dimen_16.w,
         right: Sizes.dimen_16.w,
         top: ScreenUtil.statusBarHeight + Sizes.dimen_2.h,
-        child: MovieDetailAppBar(movieDetailEntity: movie!,),
+        child: MovieDetailAppBar(movieDetailEntity: movie,),
       ),
     ]);
   }

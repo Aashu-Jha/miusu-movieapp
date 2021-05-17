@@ -1,4 +1,4 @@
-import 'package:miusu/domain/entities/langauge_entity.dart';
+import 'package:miusu/domain/entities/language_entity.dart';
 
 class Languages {
   const Languages._();

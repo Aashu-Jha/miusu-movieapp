@@ -4,7 +4,7 @@ import 'package:miusu/common/constants/sizes.dart';
 import 'package:miusu/common/extensions/size_extensions.dart';
 import 'package:miusu/common/screenutil/screen_util.dart';
 import 'package:miusu/domain/entities/movie_entity.dart';
-import 'package:miusu/presentation/blocs/movie_backdrop/movie_backdrop_bloc.dart';
+import 'package:miusu/presentation/blocs/movie_backdrop/movie_backdrop_cubit.dart';
 import 'package:miusu/presentation/journey/home/movie_carousel/animated_movie_card_widget.dart';
 
 class MoviePageView extends StatefulWidget {
@@ -51,16 +51,14 @@ class _MoviePageViewState extends State<MoviePageView> {
             return AnimatedMovieCardWidget(
               index: index,
               pageController: _pageController,
-              movId: movie.id!, 
-              posterPath: movie.posterPath!
+              movId: movie.id,
+              posterPath: movie.posterPath
             );
          },
         pageSnapping: true,
         itemCount: widget.movies.length,
         onPageChanged: (index) {
-          BlocProvider.of<MovieBackdropBloc>(context).add(
-            MovieBackdropChangedEvent(widget.movies[index])
-          );
+          BlocProvider.of<MovieBackdropCubit>(context).backDropChanged(widget.movies[index]);
         },
       ),
     );

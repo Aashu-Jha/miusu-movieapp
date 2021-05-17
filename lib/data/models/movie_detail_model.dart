@@ -13,7 +13,7 @@ class MovieDetailModel extends MovieDetailEntity {
   final String? originalTitle;
   final String? overview;
   final double? popularity;
-  final String? posterPath;
+  final String posterPath;
   final List<ProductionCompanies>? productionCompanies;
   final List<ProductionCountries>? productionCountries;
   final String? releaseDate;
@@ -22,7 +22,7 @@ class MovieDetailModel extends MovieDetailEntity {
   final List<SpokenLanguages>? spokenLanguages;
   final String? status;
   final String? tagline;
-  final String? title;
+  final String title;
   final bool? video;
   final num? voteAverage;
   final int? voteCount;
@@ -40,7 +40,7 @@ class MovieDetailModel extends MovieDetailEntity {
         this.originalTitle,
         this.overview,
         this.popularity,
-        this.posterPath,
+        required this.posterPath,
         this.productionCompanies,
         this.productionCountries,
         this.releaseDate,
@@ -49,7 +49,7 @@ class MovieDetailModel extends MovieDetailEntity {
         this.spokenLanguages,
         this.status,
         this.tagline,
-        this.title,
+        required this.title,
         this.video,
         this.voteAverage,
         this.voteCount})

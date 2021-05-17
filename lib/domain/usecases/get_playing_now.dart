@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:miusu/domain/entities/app_error.dart';
 import 'package:miusu/domain/entities/movie_entity.dart';
 import 'package:miusu/domain/repositories/movie_repostiory.dart';
-import 'package:miusu/domain/usecases/no_params.dart';
+import 'file:///C:/Users/Aashish%20Jha/StudioProjects/miusu/lib/domain/entities/no_params.dart';
 import 'package:miusu/domain/usecases/usecase.dart';
 
 class GetPlayingNow extends UseCase<List<MovieEntity>, NoParams>{

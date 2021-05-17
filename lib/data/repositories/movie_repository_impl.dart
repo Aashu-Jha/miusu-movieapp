@@ -5,7 +5,7 @@ import 'package:miusu/data/data_sources/movie_remote_data_source.dart';
 import 'package:miusu/data/models/cast_crew_result_model.dart';
 import 'package:miusu/data/models/movie_detail_model.dart';
 import 'package:miusu/data/models/movie_model.dart';
-import 'package:miusu/data/models/video_result_model.dart';
+import 'package:miusu/data/models/video_model.dart';
 import 'package:miusu/data/tables/movie_table.dart';
 import 'package:miusu/domain/entities/app_error.dart';
 import 'package:miusu/domain/entities/movie_entity.dart';
@@ -18,7 +18,7 @@ class MovieRepositoryImpl extends MovieRepository {
   MovieRepositoryImpl(this.remoteDataSource, this.localDataSource);
 
   @override
-  Future<Either<AppError,List<MovieModel>?>> getTrending() async {
+  Future<Either<AppError,List<MovieModel>>> getTrending() async {
     try{
       final movies = await remoteDataSource.getTrending();
       return Right(movies);
@@ -30,7 +30,7 @@ class MovieRepositoryImpl extends MovieRepository {
   }
 
   @override
-  Future<Either<AppError, List<MovieModel>?>> getComingSoon() async {
+  Future<Either<AppError, List<MovieModel>>> getComingSoon() async {
     try{
       final movies = await remoteDataSource.getComingSoon();
       return Right(movies);
@@ -42,7 +42,7 @@ class MovieRepositoryImpl extends MovieRepository {
   }
 
   @override
-  Future<Either<AppError, List<MovieModel>?>> getPlayingNow() async {
+  Future<Either<AppError, List<MovieModel>>> getPlayingNow() async {
     try{
       final movies = await remoteDataSource.getPlayingNow();
       return Right(movies);
@@ -54,7 +54,7 @@ class MovieRepositoryImpl extends MovieRepository {
   }
 
   @override
-  Future<Either<AppError, List<MovieModel>?>> getPopular() async {
+  Future<Either<AppError, List<MovieModel>>> getPopular() async {
     try{
       final movies = await remoteDataSource.getPopular();
       return Right(movies);
@@ -78,7 +78,7 @@ class MovieRepositoryImpl extends MovieRepository {
   }
 
   @override
-  Future<Either<AppError, List<CastModel>?>> getCastCrew(int id) async {
+  Future<Either<AppError, List<CastModel>>> getCastCrew(int id) async {
     try{
       final castCrew = await remoteDataSource.getCastCrew(id);
       return Right(castCrew);
@@ -90,7 +90,7 @@ class MovieRepositoryImpl extends MovieRepository {
   }
 
   @override
-  Future<Either<AppError, List<VideoModel>?>> getVideos(int id) async {
+  Future<Either<AppError, List<VideoModel>>> getVideos(int id) async {
     try{
       final videos = await remoteDataSource.getVideos(id);
       return Right(videos);

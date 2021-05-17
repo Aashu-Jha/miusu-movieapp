@@ -4,9 +4,10 @@ import 'package:miusu/common/constants/sizes.dart';
 import 'package:miusu/common/constants/translation_constants.dart';
 import 'package:miusu/common/extensions/size_extensions.dart';
 import 'package:miusu/common/extensions/string_extensions.dart';
-import 'package:miusu/presentation/blocs/movie_tabbed/movie_tabbed_bloc.dart';
+import 'package:miusu/presentation/blocs/movie_tabbed/movie_tabbed_cubit.dart';
 import 'package:miusu/presentation/journey/home/movie_tabbed/movie_listview_builder.dart';
 import 'package:miusu/presentation/journey/home/movie_tabbed/tab_title_widget.dart';
+import 'package:miusu/presentation/journey/loading/loading_circle.dart';
 import 'package:miusu/presentation/widgets/app_error_widget.dart';
 
 import 'movie_tabbed_constants.dart';
@@ -17,15 +18,15 @@ class MovieTabbedWidget extends StatefulWidget {
 }
 
 class _MovieTabbedWidgetState extends State<MovieTabbedWidget> with SingleTickerProviderStateMixin{
-  MovieTabbedBloc get movieTabbedBloc =>
-      BlocProvider.of<MovieTabbedBloc>(context);
+  MovieTabbedCubit get movieTabbedBloc =>
+      BlocProvider.of<MovieTabbedCubit>(context);
 
   int currentTabIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    movieTabbedBloc.add(MovieTabChangedEvent(currentTabIndex: currentTabIndex));
+    movieTabbedBloc.movieTabChanged(currentTabIndex);
   }
 
   @override
@@ -35,7 +36,7 @@ class _MovieTabbedWidgetState extends State<MovieTabbedWidget> with SingleTicker
   }
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MovieTabbedBloc, MovieTabbedState>(
+    return BlocBuilder<MovieTabbedCubit, MovieTabbedState>(
         builder: (context, state) {
           return Padding(
               padding: EdgeInsets.only(top: Sizes.dimen_4.h),
@@ -73,10 +74,17 @@ class _MovieTabbedWidgetState extends State<MovieTabbedWidget> with SingleTicker
                     child: AppErrorWidget(
                       appErrorType: state.errorType,
                       onPressed: () {
-                        movieTabbedBloc.add(MovieTabChangedEvent(currentTabIndex: currentTabIndex));
+                        movieTabbedBloc.movieTabChanged(currentTabIndex);
                       },
                     ),
-                  )
+                  ),
+                if (state is MovieTabLoading)
+                  Expanded(child: Center(
+                    child: LoadingCircle(
+                      size: Sizes.dimen_100.w,
+                    ),
+                  ),
+                  ),
               ],
             ),
           );
@@ -84,7 +92,7 @@ class _MovieTabbedWidgetState extends State<MovieTabbedWidget> with SingleTicker
         );
     }
     void _onTabTapped(int index) {
-      movieTabbedBloc.add(MovieTabChangedEvent(currentTabIndex: index));
+      movieTabbedBloc.movieTabChanged(index);
   }
 }
 

@@ -6,7 +6,8 @@ import 'package:miusu/common/constants/sizes.dart';
 import 'package:miusu/common/extensions/size_extensions.dart';
 import 'package:miusu/data/core/api_constants.dart';
 import 'package:miusu/domain/entities/movie_entity.dart';
-import 'package:miusu/presentation/blocs/favorite/favorite_bloc.dart';
+import 'package:miusu/domain/entities/movie_params.dart';
+import 'package:miusu/presentation/blocs/favorite/favorite_cubit.dart';
 import 'package:miusu/presentation/journey/movie_detail/movie_detail_arguments.dart';
 
 class FavoriteMovieCardWidget extends StatelessWidget {
@@ -26,7 +27,7 @@ class FavoriteMovieCardWidget extends StatelessWidget {
       ),
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).pushNamed(RouteList.movieDetail, arguments: MovieDetailArguments(id: movie.id!));
+          Navigator.of(context).pushNamed(RouteList.movieDetail, arguments: MovieDetailArguments(id: movie.id));
         },
         child: ClipRRect(
           borderRadius: BorderRadius.circular(Sizes.dimen_8.w),
@@ -40,8 +41,8 @@ class FavoriteMovieCardWidget extends StatelessWidget {
               Align(
                 alignment: Alignment.topRight,
                 child: GestureDetector(
-                  onTap: () => BlocProvider.of<FavoriteBloc>(context)
-                      .add(DeleteFavoriteMovieEvent(movie.id!)),
+                  onTap: () => BlocProvider.of<FavoriteCubit>(context)
+                      .deleteFavoriteMovie(MovieParams(movie.id)),
                   child: Padding(
                     padding: EdgeInsets.all(Sizes.dimen_12.w),
                     child: Icon(

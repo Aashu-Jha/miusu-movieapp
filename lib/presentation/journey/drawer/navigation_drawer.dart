@@ -6,7 +6,8 @@ import 'package:miusu/common/constants/translation_constants.dart';
 import 'package:miusu/common/extensions/size_extensions.dart';
 import 'package:miusu/common/constants/sizes.dart';
 import 'package:miusu/common/extensions/string_extensions.dart';
-import 'package:miusu/presentation/blocs/language_bloc/language_bloc.dart';
+import 'package:miusu/presentation/blocs/language/language_cubit.dart';
+import 'package:miusu/presentation/blocs/login/login_bloc.dart';
 import 'package:miusu/presentation/journey/drawer/navigation_expanded_list_item.dart';
 import 'package:miusu/presentation/journey/drawer/navigation_list_item.dart';
 import 'package:miusu/presentation/widgets/app_dialog.dart';
@@ -50,16 +51,13 @@ class NavigationDrawer extends StatelessWidget {
                 }),
             NavigationExpandedListItem(
                 title: TranslationConstants.language.t(context),
-                onPressed: (index) {
-                  BlocProvider.of<LanguageBloc>(context)
-                      .add(ToggleLanguageEvent(Languages.languages[index]));
-                },
+                onPressed: (index) => _onLanguageSelected(index, context),
                 children: Languages.languages.map((e) => e.value).toList()),
             NavigationListItem(
                 title: TranslationConstants.feedback.t(context),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  Wiredash.of(context)!.show();
+                  Wiredash.of(context)?.show();
                 }),
             NavigationListItem(
                 title: TranslationConstants.about.t(context),
@@ -67,21 +65,44 @@ class NavigationDrawer extends StatelessWidget {
                   Navigator.of(context).pop();
                   _showDialog(context);
                 }),
+            BlocListener<LoginCubit, LoginState>(
+              listenWhen: (previous, current) => current is LogoutSuccess,
+              listener: (context, state) {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  RouteList.initial,
+                  (route) => false,
+                );
+              },
+              child: NavigationListItem(
+                  title: TranslationConstants.logout.t(context),
+                  onPressed: () {
+                    BlocProvider.of<LoginCubit>(context).logout();
+                  }),
+            ),
           ],
         ),
       ),
     );
   }
 
+  void _onLanguageSelected(int index, BuildContext context) {
+    BlocProvider.of<LanguageCubit>(context).toggleLanguage(
+      Languages.languages[index],
+    );
+  }
+
+
   void _showDialog(BuildContext context) {
     showDialog(
         context: context,
-      builder: (BuildContext context) => AppDialog(
-            title: TranslationConstants.about,
-            description: TranslationConstants.aboutDescription,
-            buttonText: TranslationConstants.okay,
-        image: Image.asset('assets/pngs/tmdb_logo.png', height: Sizes.dimen_32.h,),
-      )
-    );
+        builder: (BuildContext context) => AppDialog(
+              title: TranslationConstants.about,
+              description: TranslationConstants.aboutDescription,
+              buttonText: TranslationConstants.okay,
+              image: Image.asset(
+                'assets/pngs/tmdb_logo.png',
+                height: Sizes.dimen_32.h,
+              ),
+            ));
   }
 }
