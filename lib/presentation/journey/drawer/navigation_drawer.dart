@@ -70,7 +70,7 @@ class NavigationDrawer extends StatelessWidget {
               listener: (context, state) {
                 Navigator.of(context).pushNamedAndRemoveUntil(
                   RouteList.initial,
-                  (route) => false,
+                    (route) => false ,
                 );
               },
               child: NavigationListItem(
@@ -95,7 +95,7 @@ class NavigationDrawer extends StatelessWidget {
   void _showDialog(BuildContext context) {
     showDialog(
         context: context,
-        builder: (BuildContext context) => AppDialog(
+        builder: (BuildContext ctx) => AppDialog(
               title: TranslationConstants.about,
               description: TranslationConstants.aboutDescription,
               buttonText: TranslationConstants.okay,

@@ -16,7 +16,7 @@ class LoginSuccess extends LoginState {
 
 class LogoutSuccess extends LoginState {
   @override
-  List<Object?> get props => [];
+  List<Object> get props => [];
 }
 
 class LoginError extends LoginState {

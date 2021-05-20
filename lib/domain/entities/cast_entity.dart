@@ -2,9 +2,9 @@ import 'package:equatable/equatable.dart';
 
 class CastEntity extends Equatable {
   final String creditId;
-  final String? name;
-  final String? profilePath;
-  final String? character;
+  final String name;
+  final String profilePath;
+  final String character;
 
   CastEntity({
     required this.creditId,
