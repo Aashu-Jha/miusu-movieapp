@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/rendering.dart';
 import 'package:miusu/common/constants/sizes.dart';
 import 'package:miusu/common/extensions/size_extensions.dart';
 import 'package:miusu/domain/entities/movie_entity.dart';

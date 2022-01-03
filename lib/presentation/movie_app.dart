@@ -64,11 +64,11 @@ class _MovieAppState extends State<MovieApp> {
               title: 'Miusu',
               theme: ThemeData(
                 unselectedWidgetColor: AppColor.royalBlue,
-                accentColor: AppColor.royalBlue,
                 primaryColor: AppColor.vulcan,
                 scaffoldBackgroundColor: AppColor.vulcan,
                 textTheme: ThemeText.getTextTheme(),
-                appBarTheme: const AppBarTheme(elevation: 0),
+                appBarTheme: const AppBarTheme(elevation: 0), 
+                colorScheme: ColorScheme.fromSwatch().copyWith(secondary: AppColor.royalBlue),
               ),
               supportedLocales:
                   Languages.languages.map((e) => Locale(e.code)).toList(),

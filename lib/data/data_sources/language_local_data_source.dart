@@ -11,7 +11,7 @@ class LanguageLocalDataSourceImpl extends LanguageLocalDataSource {
   @override
   Future<String> getPreferredLanguage() async {
     final languageBox = await Hive.openBox('languageBox');
-    return languageBox.get('preferred_language');
+    return languageBox.get('preferred_language') ?? 'en';
   }
 
   @override

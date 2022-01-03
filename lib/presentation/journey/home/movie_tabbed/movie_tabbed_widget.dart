@@ -17,7 +17,7 @@ class MovieTabbedWidget extends StatefulWidget {
   _MovieTabbedWidgetState createState() => _MovieTabbedWidgetState();
 }
 
-class _MovieTabbedWidgetState extends State<MovieTabbedWidget> with SingleTickerProviderStateMixin{
+class _MovieTabbedWidgetState extends State<MovieTabbedWidget>{
   MovieTabbedCubit get movieTabbedBloc =>
       BlocProvider.of<MovieTabbedCubit>(context);
 
@@ -29,11 +29,6 @@ class _MovieTabbedWidgetState extends State<MovieTabbedWidget> with SingleTicker
     movieTabbedBloc.movieTabChanged(currentTabIndex);
   }
 
-  @override
-  void dispose() {
-    movieTabbedBloc.close();
-    super.dispose();
-  }
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MovieTabbedCubit, MovieTabbedState>(
