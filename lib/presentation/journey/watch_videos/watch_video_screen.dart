@@ -6,6 +6,7 @@ import 'package:miusu/common/extensions/string_extensions.dart';
 import 'package:miusu/common/extensions/size_extensions.dart';
 import 'package:miusu/domain/entities/video_entity.dart';
 import 'package:miusu/presentation/journey/watch_videos/watch_video_arguments.dart';
+import 'package:miusu/presentation/themes/app_color.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class WatchVideoScreen extends StatefulWidget {
@@ -42,79 +43,85 @@ class _WatchVideoScreenState extends State<WatchVideoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          TranslationConstants.watchTrailers.t(context),
-        ),
-      ),
-      body: YoutubePlayerBuilder(
-        player: YoutubePlayer(
-          controller: _controller ??
-              YoutubePlayerController(
-                initialVideoId: _videos[0].key,
-                flags: YoutubePlayerFlags(
-                  autoPlay: true,
-                  mute: false,
-                ),
-              ),
-          aspectRatio: 16 / 9,
-          showVideoProgressIndicator: true,
-          progressIndicatorColor: Colors.amber,
-          progressColors: ProgressBarColors(
-            playedColor: Colors.amber,
-            handleColor: Colors.amberAccent,
-          ),
-        ),
-        builder: (context, player) =>
-          Column(
-            children: [
-              player,
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      for (int i = 0; i < _videos.length; i++)
-                        Container(
-                          height: Sizes.dimen_60.h,
-                          padding:
-                          EdgeInsets.symmetric(vertical: Sizes.dimen_8.h),
-                          child: Row(
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: () {
-                                  _controller?.load(_videos[i].key);
-                                  _controller?.play();
-                                },
-                                child: CachedNetworkImage(
-                                  width: Sizes.dimen_200.w,
-                                  imageUrl: YoutubePlayer.getThumbnail(
-                                    videoId: _videos[i].key,
-                                    quality: ThumbnailQuality.high,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Padding(
-                                  padding:
-                                  EdgeInsets.symmetric(horizontal: Sizes.dimen_8.w),
-                                  child: Text(
-                                    _videos[i].title,
-                                    style:
-                                    Theme.of(context).textTheme.subtitle1,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                    ],
+    return OrientationBuilder(
+      builder: (context, orientation) {
+        return Scaffold(
+          backgroundColor: AppColor.vulcan,
+          appBar: orientation == Orientation.portrait ? AppBar(
+            backgroundColor: AppColor.vulcan,
+            title: Text(
+              TranslationConstants.watchTrailers.t(context),
+            ),
+          ) : null,
+          body: YoutubePlayerBuilder(
+            player: YoutubePlayer(
+              controller: _controller ??
+                  YoutubePlayerController(
+                    initialVideoId: _videos[0].key,
+                    flags: YoutubePlayerFlags(
+                      autoPlay: true,
+                      mute: false,
+                    ),
                   ),
-                ),
+              aspectRatio: 16 / 9,
+              showVideoProgressIndicator: true,
+              progressIndicatorColor: Colors.amber,
+              progressColors: ProgressBarColors(
+                playedColor: Colors.amber,
+                handleColor: Colors.amberAccent,
               ),
-            ],
+            ),
+            builder: (context, player) =>
+              Column(
+                children: [
+                  player,
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          for (int i = 0; i < _videos.length; i++)
+                            Container(
+                              height: Sizes.dimen_60.h,
+                              padding:
+                              EdgeInsets.symmetric(vertical: Sizes.dimen_8.h),
+                              child: Row(
+                                children: <Widget>[
+                                  GestureDetector(
+                                    onTap: () {
+                                      _controller?.load(_videos[i].key);
+                                      _controller?.play();
+                                    },
+                                    child: CachedNetworkImage(
+                                      width: Sizes.dimen_200.w,
+                                      imageUrl: YoutubePlayer.getThumbnail(
+                                        videoId: _videos[i].key,
+                                        quality: ThumbnailQuality.high,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding:
+                                      EdgeInsets.symmetric(horizontal: Sizes.dimen_8.w),
+                                      child: Text(
+                                        _videos[i].title,
+                                        style:
+                                        Theme.of(context).textTheme.subtitle1,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
           ),
-      ),
+        );
+      }
     );
   }
 }
