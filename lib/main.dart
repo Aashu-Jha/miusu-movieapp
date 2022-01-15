@@ -7,6 +7,7 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'di/get_it.dart' as getIt;
 
+//program starts from here
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   unawaited(SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]));
